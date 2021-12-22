@@ -23,7 +23,6 @@ jobs:
           echo $TAG_NAME
           git status
           git checkout master
-          git checkout release
           git checkout $TAG_NAME
           git checkout -b test_branch
           git status
