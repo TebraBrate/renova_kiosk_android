@@ -21,9 +21,8 @@ jobs:
       - name: Build base image
         run: |
           echo $TAG_NAME
-          git checkout $TAG_NAME
           git status
-          git branch --contains $(git rev-list -n 1 $TAG_NAME)
+          git checkout $TAG_NAME && git branch --contains $(git rev-list -n 1 $TAG_NAME)
         env:
           TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
 
