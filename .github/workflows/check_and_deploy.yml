@@ -26,6 +26,7 @@ jobs:
           git status
           git branch --contains $(git rev-list -n 1 $TAG_NAME)
           git status
+          git branch -a
         env:
           TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
 
