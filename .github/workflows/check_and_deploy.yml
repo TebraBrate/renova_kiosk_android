@@ -17,7 +17,7 @@ jobs:
         uses: damienaicheh/extract-version-from-tag-action@v1.0.0
 
       - name: Print tag name
-        uses: |
+        run: |
           echo ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
           echo ${{ env.PRE_RELEASE }}
 #      - name: Tag name
