@@ -15,8 +15,8 @@ jobs:
 
       - name: check if branch is master
         run: |
-          echo GITHUB_REF |
-          git branch --contains $(git rev-list -n 1 GITHUB_REF) | grep '^master$'
+          echo $GITHUB_REF |
+          git branch --contains $(git rev-list -n 1 $GITHUB_REF) | grep '^master$'
 
 
 #  android_tests:
