@@ -21,6 +21,7 @@ jobs:
       - name: Build base image
         run: |
           echo $TAG_NAME
+          git checkout $TAG_NAME
           git status
           git branch --contains $(git rev-list -n 1 $TAG_NAME)
         env:
