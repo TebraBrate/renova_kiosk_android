@@ -3,7 +3,7 @@ name: Test and deploy
 on:
   push:
     tags:
-      - "*"
+      - ".*\.-beta"
 
 jobs:
   unit_tests:
