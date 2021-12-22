@@ -22,7 +22,7 @@ jobs:
         run: |
           echo $TAG_NAME
           git status
-          git switch -c test_branch
+          git checkout -b test_branch
           git branch --contains $(git rev-list -n 1 $TAG_NAME) | grep 'master$'
         env:
           TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
