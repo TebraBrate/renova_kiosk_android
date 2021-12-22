@@ -13,24 +13,31 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Tag name
-        id: tag_name
-        run: |
-          echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/*/}
+      - name: Extract version from tag
+        uses: damienaicheh/extract-version-from-tag-action@v1.0.0
 
-      - name: Build base image
-        run: |
-          echo $TAG_NAME
-          git status
-          git checkout master
-          git checkout $TAG_NAME
-          git checkout -b test_branch
-          git status
-          git branch --contains $(git rev-list -n 1 $TAG_NAME)
-          git status
-          git branch -a
-        env:
-          TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
+      - name: Print tag name
+        uses: |
+          echo ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+          echo ${{ env.PRE_RELEASE }}
+#      - name: Tag name
+#        id: tag_name
+#        run: |
+#          echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/*/}
+#
+#      - name: Build base image
+#        run: |
+#          echo $TAG_NAME
+#          git status
+#          git checkout master
+#          git checkout $TAG_NAME
+#          git checkout -b test_branch
+#          git status
+#          git branch --contains $(git rev-list -n 1 $TAG_NAME)
+#          git status
+#          git branch -a
+#        env:
+#          TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
 
 
 #  android_tests:
