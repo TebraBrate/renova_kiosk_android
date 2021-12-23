@@ -3,7 +3,7 @@ name: Test and deploy
 on:
   push:
     tags:
-      - "v[0-9]*\.[0-9]*\.[0-9]*-beta"
+      - "v[0-9]+.[0-9]+.[0-9]+-beta"
 
 jobs:
   unit_tests:
