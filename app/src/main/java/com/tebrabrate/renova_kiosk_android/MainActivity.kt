@@ -3,7 +3,6 @@ package com.tebrabrate.renova_kiosk_android
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -19,12 +18,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         lifecycleScope.launch {
-            viewModel.observeWebSocketEvent()
-            viewModel.observeTicker()
+
         }
 
-        viewModel.ticker.observe(this, { ticker ->
+        viewModel.events.observe(this) { ticker ->
             Timber.d("MARKO ticker is $ticker")
-        })
+        }
     }
 }
