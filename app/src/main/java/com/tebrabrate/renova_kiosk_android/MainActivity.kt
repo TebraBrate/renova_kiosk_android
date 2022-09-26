@@ -2,7 +2,9 @@ package com.tebrabrate.renova_kiosk_android
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.tebrabrate.renova_kiosk_android.storage.DeviceUuidFactory
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -14,6 +16,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
 
         Log.d("ACA", "before connect")
         try {
@@ -41,7 +46,12 @@ class MainActivity : AppCompatActivity() {
     var onConnect = Emitter.Listener {
         //After getting a Socket.EVENT_CONNECT which indicate socket has been connected to server,
         //send userName and roomName so that they can join the room.
-        Log.d("ACA", "conectovao se")
+        //var proba = UUID.randomUUID().toString()
+        val proba = DeviceUuidFactory(applicationContext).deviceUuid
+        Log.d("ACA", proba.toString()+"")
+        socket.on("device_data", onDeviceData)
+        socket.emit("login_device",proba.toString()+"")
+        Log.d("ACA", "conectovao se " +proba+"")
     }
 
     var onDisconnect = Emitter.Listener {
@@ -56,8 +66,14 @@ class MainActivity : AppCompatActivity() {
         Log.d("ACA", "error crko dabogda" + it[0])
     }
 
+    var onDeviceData = Emitter.Listener {
+
+        Log.d("ACA", "register_device " + it)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         socket.disconnect()
     }
+
 }
