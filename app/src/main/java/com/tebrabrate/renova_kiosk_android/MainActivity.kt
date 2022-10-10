@@ -2,8 +2,9 @@ package com.tebrabrate.renova_kiosk_android
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.tebrabrate.renova_kiosk_android.storage.DeviceUuid
 import com.tebrabrate.renova_kiosk_android.storage.DeviceUuidFactory
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
 
         Log.d("ACA", "before connect")
@@ -47,11 +48,23 @@ class MainActivity : AppCompatActivity() {
         //After getting a Socket.EVENT_CONNECT which indicate socket has been connected to server,
         //send userName and roomName so that they can join the room.
         //var proba = UUID.randomUUID().toString()
+
+//        {
+//            uuid: string
+//        }
+
+
+
+
         val proba = DeviceUuidFactory(applicationContext).deviceUuid
-        Log.d("ACA", proba.toString()+"")
+
+        val uuid = DeviceUuid(proba.toString())
+        val gson = Gson()
+        val json = gson.toJson(uuid)
+        Log.d("ACA", json)
         socket.on("device_data", onDeviceData)
-        socket.emit("login_device",proba.toString()+"")
-        Log.d("ACA", "conectovao se " +proba+"")
+        socket.emit("login_device", json)
+        Log.d("ACA", "conectovao se $json")
     }
 
     var onDisconnect = Emitter.Listener {
@@ -67,7 +80,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     var onDeviceData = Emitter.Listener {
-
         Log.d("ACA", "register_device " + it)
     }
 
